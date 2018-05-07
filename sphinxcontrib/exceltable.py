@@ -316,9 +316,13 @@ class ExcelTable(object):
 
     # xlrd uses paths only
     # TODO: Add support for remote files
-    self.book = xlrd.open_workbook(self.file_object.name,
-      encoding_override=encoding,
-      formatting_info=True)
+    formatting_info = True
+    if self.file_object.name.endswith('.xlsx'):
+        self.book = xlrd.open_workbook(self.file_object.name)
+    else:
+        self.book = xlrd.open_workbook(self.file_object.name,
+          encoding_override=encoding,
+          formatting_info=True)
 
 
   def create_table(self, fromcell=None, tocell=None, nheader=0, sheet=0):
@@ -500,6 +504,8 @@ class ExcelTable(object):
     """
     format = {'bold':False, 'italic':False, 'bgcolor':None}
 
+    if cell.xf_index is None:
+      return format
     xf = self.book.xf_list[cell.xf_index]
     font = self.book.font_list[xf.font_index]
 

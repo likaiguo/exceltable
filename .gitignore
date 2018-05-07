@@ -1,0 +1,5 @@
+docs/_*
+*.pyc
+.idea/
+sphinxcontrib_exceltable.egg-info/
+dist/
